@@ -26,7 +26,7 @@ Enter answers to the questions just below the >Answer: prompt.
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: my ability to learn and work hard to develop this new skill.
+> Answer: My ability to learn and work hard to develop this new skill.
 
 3. Are there any components of the course about which you feel apprehensive?
 
