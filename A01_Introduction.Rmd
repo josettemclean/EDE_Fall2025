@@ -9,7 +9,7 @@ output: pdf_document
 This exercise accompanies the introductory material in Environmental Data Analytics. 
 
 ## Directions
-1.  Rename this file `<JosetteMcLean>_A01_Introduction.Rmd` (replacing `<FirstLast>` with your first and last name).
+1.  Rename this file `<Firstlast>_A01_Introduction.Rmd` (replacing `<FirstLast>` with your first and last name).
 2.  Change "Student Name" on line 3 (above) with your name.
 3.  Work through the steps, **creating code and output** that fulfill each instruction.
 4.  Be sure to **answer the questions** in this assignment document.
@@ -22,15 +22,15 @@ Enter answers to the questions just below the >Answer: prompt.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: I have taken a social science analytics class where we used SPSS, very limited R experience and no Git experience
+> Answer: I have taken a social science analytics class where we used SPSS, very limited R experience and no Git experience.
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: my ability to learn and work hard to develop this new skill
+> Answer: my ability to learn and work hard to develop this new skill.
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer:my lack of experience in r and spss 
+> Answer:My lack of experience in r and spss. 
 
 
 ## 2) GitHub
