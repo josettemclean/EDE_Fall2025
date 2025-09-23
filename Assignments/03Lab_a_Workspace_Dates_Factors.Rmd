@@ -79,7 +79,8 @@ print(filenames)
 ```{r here in action}
 
 # 1. Read the 'NTL-LTER_Lake_ChemistryPhysics_Raw.csv' into a dataframe
-
+NTL_data <- read.csv(
+  
 
 # 2.
 library(tidyverse);library(here)
