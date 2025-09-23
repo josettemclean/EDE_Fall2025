@@ -1,6 +1,6 @@
 ---
 title: "Assignment 3: Data Exploration"
-author: "Student Name"
+author: "Josette McLean"
 date: "Fall 2025"
 output: pdf_document
 geometry: margin=2.54cm
@@ -33,72 +33,134 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Ex
 1.  Load necessary packages (tidyverse, lubridate, here), check your current working directory and upload two datasets: the ECOTOX neonicotinoid dataset (ECOTOX_Neonicotinoids_Insects_raw.csv) and the Niwot Ridge NEON dataset for litter and woody debris (NEON_NIWO_Litter_massdata_2018-08_raw.csv). Name these datasets "Neonics" and "Litter", respectively. Be sure to include the subcommand to read strings in as factors.
 
 ```{r setup,  message = FALSE}
-
-
+#Import packages
+library(dplyr)
+library(lubridate)
 ```
 
+
+```{r setup,  message = FALSE}
+#Check workspace
+here()
+```
+
+
+```{r setup,  message = FALSE}
+#Import ECOTOX_Neonicotinoids_Insects_raw.csv
+ECOTOX_Neonicotinoids_Insects_raw<-read.csv(    
+  file=here('Data','Raw','ECOTOX_Neonicotinoids_Insects_raw.csv'), 
+  stringsAsFactors=T )
+```
+
+
+```{r setup,  message = FALSE}
+#Import NEON_NIWO_Litter_massdata_2018-08_raw.csv
+NEON_NIWO_Litter_massdata_2018_08_raw <- read.csv( file=here('Data','Raw','NEON_NIWO_Litter_massdata_2018-08_raw.csv'),
+stringAsFactors= T
+```
+
+
+```{r setup,  message = FALSE}
+#Renaming dataset to Neonics 
+Neonics <-(ECOTOX_Neonicotinoids_Insects_raw)
+```
+
+
+```{r setup,  message = FALSE}
+#Renaming dataset to Litter and removing missing data 
+Litter <- (NEON_NIWO_Litter_massdata_2018_08_raw)
+```
+
+
+```{r setup,  message = FALSE}
 ## Learn about your system
 
 2.  The neonicotinoid dataset was collected from the Environmental Protection Agency's ECOTOX Knowledgebase, a database for ecotoxicology research. Neonicotinoids are a class of insecticides used widely in agriculture. The dataset that has been pulled includes all studies published on insects. Why might we be interested in the ecotoxicology of neonicotinoids on insects? Feel free to do a brief internet search if you feel you need more background information.
 
-> Answer:
+> Answer:Researchers thought that they were a less harmful alternative to previous insecticides, but new research has shown that they have devastating ecological impacts, for example they are toxic to pollinators e.g. bees, insects that are beneficial to the environment, and aquatic invertebrates. 
 
 3.  The Niwot Ridge litter and woody debris dataset was collected from the National Ecological Observatory Network, which collectively includes 81 aquatic and terrestrial sites across 20 ecoclimatic domains. 32 of these sites sample forest litter and woody debris, and we will focus on the Niwot Ridge long-term ecological research (LTER) station in Colorado. Why might we be interested in studying litter and woody debris that falls to the ground in forests? Feel free to do a brief internet search if you feel you need more background information.
 
-> Answer:
+> Answer: It provides habitat for a wide range of organisms, and it is important for nutrient cycling and controling hydrology and stream environments
 
 4.  How is litter and woody debris sampled as part of the NEON network? Read the NEON_Litterfall_UserGuide.pdf document to learn more. List three pieces of salient information about the sampling methods here:
 
 > Answer: 
- 1.
- 2.
- 3. 
+ 1.Sampling is only done at sites where woodt vegetation is less than 2 cm tall
+ 2.Sampling is only conducted in tower plots
+ 3. As far as possible, sampling is done in the same location over the duration of the observatory
+```
 
+
+```{r setup,  message = FALSE}
 ## Obtain basic summaries of your data (Neonics)
 
-5.  What are the dimensions of the dataset?
+#Removing NAs
+Neonicscomplete <-na.omit (Neonics)
 
-```{r Q5}
+print(Neonicscomplete)
 
+summary (Neonics)
 
 ```
+
+
+```{r {q5},  message = FALSE}
+#5.  What are the dimensions of the dataset?
+  dim(Neonics)
+```
+
 
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest? [Tip: The `sort()` command is useful for listing the values in order of magnitude...]
 
 ```{r Q6}
+sort(Neonicscomplete$Effect)
+summary(Neonicscomplete$Effect)
 
 
 ```
 
 > Answer:
-
+The most common studied effects are:population, mortality, behavior, reproduction, development and avoidance
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: Explore the help on the `summary()` function, in particular the `maxsum` argument...]
 
 ```{r Q7}
+sort(Neonicscomplete$Species.Common.Name)
+summary(Neonicscomplete$Species.Common.Name, maxsum = 6)
+```
+
+
+```{r Q7}
+summary(Neonicscomplete$Species.Common.Name, maxsum = 7) #I did 7, to get away from other as the 6th species
 
 
 ```
 
-> Answer:
+> Answer: The six most commonly studied species are: Honey Bee, Parasitic Wasp, Buff Tailed Bumblebee, Carnolian Honey Bee, Bumble Bee, Italian Honeybee. These are all types of bees, and bees feed directly on pollen and nectar, making them especially suceptible to Neonicotinoids because these insectidicdes are sytematic and accumulate in pollen and nectar, vs other insects that might feed on other parts of the plant and have less contact with pollen and nectar, thus making them less impacted.
 
 8.  Concentrations are always a numeric value. What is the class of `Conc.1..Author.` column in the dataset, and why is it not numeric? [Tip: Viewing the dataframe may be helpful...]
 
 ```{r Q8}
 
-
+Neonicscomplete$Conc.1..Author.
 ```
 
-> Answer:
+> Answer:#It is a character class because it contains numbers and characters, thats why it is not numeric (i.e. NR)
 
 ## Explore your data graphically (Neonics)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
 ```{r Q9}
-
-
+Neonicscomplete$Publication.Year <- factor(Neonicscomplete$Publication.Year)
 ```
+
+
+```{r Q9}
+ggplot(Neonicscomplete) +
+  geom_freqpoly(aes(x=Publication.Year)
+
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
 
