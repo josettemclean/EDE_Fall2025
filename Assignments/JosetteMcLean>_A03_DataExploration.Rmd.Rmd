@@ -106,14 +106,14 @@ The most common studied effects are:population, mortality, behavior, reproductio
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: Explore the help on the `summary()` function, in particular the `maxsum` argument...]
 
-```{r Q7}
+```{r Q7a}
 sort(Neonics$Species.Common.Name)
 summary(Neonics$Species.Common.Name, maxsum = 6)
 ```
 
 
-```{r Q7}
-summary(Neonicscomplete$Species.Common.Name, maxsum = 7) #I did 7, to get away from other as the 6th species
+```{r Q7b}
+summary(Neonics$Species.Common.Name, maxsum = 7) #I did 7, to get away from other as the 6th species
 
 
 ```
@@ -132,11 +132,6 @@ class(Neonics$Conc.1..Author.)
 ## Explore your data graphically (Neonics)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
-
-```{r Q9}
-Neonicscomplete$Publication.Year <- factor(Neonicscomplete$Publication.Year)
-```
-
 
 ```{r Q9}
 ggplot(Neonics) +
