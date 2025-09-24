@@ -23,31 +23,24 @@ This exercise accompanies the lessons/labs in Environmental Data Analytics on co
 ## Basics, Part 1
 
 1.  Generate a sequence of numbers from one to 55, increasing by fives. Assign this sequence a name.
-```{r}
-seq(1,55, 5)
-seq1 <- seq(1,55,5)
-```
 
 2.  Compute the mean and median of this sequence.
-```{r}
-mean(seq1)
-median(seq1)
-```
 
 3.  Ask R to determine whether the mean is greater than the median.
-```{r}
-mean(seq1)>median(seq1)
-```
 
 4.  Insert comments in your code to describe what you are doing.
 
 ```{r basics 1}
-#1. I generated a sequence of numbers from 1 to 55, increasing by 5, and named it seq1
+#1. Generated and named a sequence of numbers from 1 to 55, increasing by 5 
+seq(1,55, 5)
+seq1 <- seq(1,55,5)
 
 #2. Calculated the mean and median of seq1
+mean(seq1)
+median(seq1)
 
-#3. Assessed if the mean was greater than median, it was not
-
+#3. Assessed if the mean was greater than median
+mean(seq1)>median(seq1)
 ```
 
 ## Basics, Part 2
@@ -64,11 +57,7 @@ on_scholarship <- c(TRUE, FALSE, FALSE, TRUE) #This is a logic vector
 
 7.  Combine each of the vectors into a data frame. Assign the data frame an informative name.
 ```{r}
-student_information <- data.frame(
- student_names = student_names,
-  test_score = test_scores,
-  on_scholarship = on_scholarship
-)
+df_student_info <- data.frame(student_names,test_scores,on_scholarship)
 
 ```
 
@@ -76,117 +65,68 @@ student_information <- data.frame(
 8.  Label the columns of your data frame with informative titles.
 
 ```{r basics 2}
-student_information <- data.frame(
- student_names = student_names,
-  test_score = test_scores,
-  on_scholarship = on_scholarship
-)
+names(df_student_info) <- c("Names","Scores", "Scholarship"); 
 
 ```
 
 9.  QUESTION: How is this data frame different from a matrix?
 
-> Answer: A matrix can only contain data of the same time, so it would not have been able to store each of these vectors of different data types, that is what makes this data frame different, because it can contain a variety of vectors with different data types. 
+> Answer: A matrix can only contain data of the same types, so it would not have been able to store each of these vectors of different data types, that is what makes this data frame different, because it can contain a variety of vectors with different data types. 
 
 10. Create a function with one input. In this function, use `if`...`else` to evaluate the value of the input: if it is greater than 50, print the word "Pass"; otherwise print the word "Fail". 
 
-```{r}
-evaluate_score <- function(score) {
-  if (score > 50) {
-    print("Pass")
-  } else {
-    print("Fail")
-  }
-}
-
-evaluate_score(75)   
-evaluate_score(40)   
-
-```
-
 11. Create a second function that does the exact same thing as the previous one but uses `ifelse()` instead if `if`...`else `. 
-```{r}
-evaluate_score2 <- function(score) {
-  result <- ifelse(score > 50, "Pass", "Fail")
-  return(result)
-}
-
-
-evaluate_score2(75)   
-evaluate_score2(40)   
-
-```
-
 
 12. Run both functions using the value 52.5 as the input
 
-```{r}
-evaluate_score <- function(score) {
-  if (score > 50) {
-    print("Pass")
-  } else {
-    print("Fail")
-  }
-}
-
-evaluate_score(52.5)
-```
-
-```{r}
-evaluate_score2 <- function(score) {
-  result <- ifelse(score > 50, "Pass", "Fail")
-  return(result)
-}
-
-evaluate_score2(52.5)
-```
-
 13. Run both functions using the **vector** of student test scores you created as the input. (Only one will work properly...)
-
-```{r}
-test_scores <- c(80, 100, 75, 50)
-#First way
-evaluate_score <- function(score) {
-  if (score > 50) {
-    print("Pass")
-  } else {
-    print("Fail")
-  }
-}
-```
-
-```{r}
-
-# Second way
-#evaluate_score2 <- function(score) {
- # result <- ifelse(score > 50, "Pass", "Fail")
- # return(result)
-#}
-
-#evaluate_score(test_scores)   
-#evaluate_score2(test_scores)  
-
-```
-
-
 
 ```{r basics 3}
 #10. Create a function using if...else
+grade1 <- function(x) {
+  if(x > 50) {
+    print("Pass")
+  }
+  else {
+    print("Fail")
+  }  
+} 
+```
 
+```{r}
 #11. Create a function using ifelse()
+grade2 <- function(x) {
+ifelse(x>50, "Pass","Fail")
 
+} 
+
+```
+
+```{r}
 #12a. Run the first function with the value 52.5
+score1 <- grade1(52.5); score1
 
+```
+ 
+```{r}
 #12b. Run the second function with the value 52.5
+score2 <- grade2(52.5); score2
+```
 
+```{r}
 #13a. Run the first function with the vector of test scores
+#score1 <-grade1(test_scores); score1
 
+```
+
+```{r}
 #13b. Run the second function with the vector of test scores
+sore2 <- grade2(test_scores); score2
+
 ```
 
 14. QUESTION: Which option of `if`...`else` vs. `ifelse` worked? Why? (Hint: search the web for "R vectorization")
 
-> Answer:   The  'if ... else' worked while the ifelse did not work. I might have done something wrong because logically it should have been the other way around. This is because if ... else only checks one value at a time, so when I gave it a whole vector of test scores, it only looked at the first score and ignored the rest. On the other hand, ifelse() is vectorized, which means it can check every score in the vector, one by one, and return a result for each. That’s why ifelse() worked for the whole set of test scores.
-That what should have happened. 
+> Answer:   The ifelse option worked, while the if...else did not. Most r functions are vectorized, which means that they can all elements of a vector at the same time, not needing to loop through each one, this is the case with ifelse option. If...else however, is not vectorized and works on singular vector elements, which is why it did not work, because there were multiple elements in the vector.
 
 **NOTE** Before knitting, you'll need to comment out the call to the function in Q13 that does not work. (A document can't knit if the code it contains causes an error!)
