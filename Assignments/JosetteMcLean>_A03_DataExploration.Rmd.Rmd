@@ -124,10 +124,10 @@ summary(Neonicscomplete$Species.Common.Name, maxsum = 7) #I did 7, to get away f
 
 ```{r Q8}
 
-Neonicscomplete$Conc.1..Author. #theres a command, 
+class(Neonics$Conc.1..Author.) 
 ```
 
-> Answer:#It is a character class because it contains numbers and characters, thats why it is not numeric (i.e. NR)
+> Answer:It is of the class factor because it contains numbers and characters, thats why it is not numeric (i.e. NR)
 
 ## Explore your data graphically (Neonics)
 
@@ -154,55 +154,75 @@ ggplot(Neonics) +
 
 Interpret this graph. What are the most common test locations, and do they differ over time?
 
-> Answer:
+> Answer:Field artifical and field natural are the most common test locations, and the general trend is that they seem to increase sharply over time between 2005 and 2015, but then it has been decreasing since about 2018.
 
 11. Create a bar graph of Endpoint counts. What are the two most common end points, and how are they defined? Consult the ECOTOX_CodeAppendix for more information. 
 
+
+  
 [**TIP**: Add `theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))` to the end of your plot command to rotate and align the X-axis labels...]
 
-```{r Q11}
-
-
+```{r Q11,}
+ggplot(data=Neonics, aes(x=Endpoint)) + 
+  geom_bar() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ 
 ```
 
-> Answer:
+> Answer: The two most common points are LOEL- lowest observed effect level, meaning this is the lowest dose or exposure level of a substance at which an observable effect is detected in a test population;
+  and NOEL-The highest dose or exposure level of a substance that produces no observable adverse effects in a test population.
 
 ## Explore your data (Litter)
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018.
 
 ```{r Q12}
+#Checking class of collectDate
+class(Litter$collectDate)
 
+#Since it was not date, I changed it and confirmed that it wwas changed
 
+date_of_collection <- ymd(Litter$collectDate)
+class(date_of_collection)
+
+unique(date_of_collection)
 ```
+
 
 13. Using the `unique` function, list the different plotIDs sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
 ```{r Q13}
-
+unique(Litter$plotID)
+summary(Litter$plotID)
 
 ```
 
-> Answer:
+> Answer:Unique gives you a list of distinct plot IDS where sampling was done, whereas summary tells you how many samples were taken at each plot ID.
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 
 ```{r Q14}
-
-
+ggplot(data=Litter, aes(x=functionalGroup)) + 
+  geom_bar() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ 
 ```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup.
 
-```{r Q15}
+```{r Q15a}
+ggplot(Litter) +
+  geom_boxplot(aes(x=functionalGroup, y=dryMass)) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
 
+```{r Q15b}
+ggplot(Litter) +
+  geom_violin(aes(x=functionalGroup, y=dryMass)) 
 
 ```
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer:
+> Answer:The boxplot also highlighted the large spread or variation among the data, particularly for Needles, mixed and slightly twigs/branches
 
 What type(s) of litter tend to have the highest biomass at these sites?
 
-> Answer:
+> Answer:Needles
