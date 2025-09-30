@@ -31,18 +31,57 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 ```{r setup, message = FALSE}
 #1a 
+library(tidyverse)
+library(lubridate)
+library(here)
 
 #1b 
+here()
 
-#1c 
+#1c EPA1
+EPA_O3_18 <- read.csv(
+  file=here('Data','Raw','EPAair_O3_NC2018_raw.csv'),
+  stringsAsFactors=T 
+)
 
+#1c EPA2
+EPA_O3_19 <- read.csv (
+  file=here ('Data', 'Raw', 'EPAair_O3_NC2019_raw.csv'),
+  stringsAsFactors = T
+)
+
+#1c EPA3
+EPA_PM_18 <- read.csv (
+  file=here ('Data', 'Raw', 'EPAair_PM25_NC2018_raw.csv'),
+  stringsAsFactors = T
+)
+
+#1c EPA4
+EPA_PM_19 <- read.csv (
+  file=here ('Data', 'Raw', 'EPAair_PM25_NC2019_raw.csv'),
+  stringsAsFactors = T
+)
 #2 
 
+#Dimensions of first dataset
+dim(EPA_O3_18)
+
+#Dimensions of second dataset
+
+dim(EPA_O3_19)
+
+
+#Dimensions of third dataset
+dim(EPA_PM_18)
+
+
+#Dimensions of forth dataset
+dim(EPA_PM_19)
 
 ```
 
 >All four datasets should have the same number of columns but unique record counts (rows). Do your datasets follow this pattern?
-
+  Yes it does
 
 ## Wrangle individual datasets to create processed files.
 
@@ -56,15 +95,58 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 ```{r questions 3 thru 4}
 #3
+#Changing the first EPA Data set's data column to a date object
+EPA_O3_18$Date <-mdy(EPA_O3_18$Date)
+```
+
+```{r}
+
+#4 and 5
+#Selecting  columns in EPA_03_18
+EPA_03_18_Processed <-
+  EPA_O3_18 %>% 
+  select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,COUNTY,       SITE_LATITUDE, SITE_LONGITUDE)
+
+#Changing the second EPA Data set's data column to a date object
+
+EPA_O3_19$Date <- myd(EPA_O3_19$Date)
+
+#Changing the third EPA Data set's data column to a date object
+EPA_PM_18$Date <- myd(EPA_PM_18$Date)
+
+#Changing forth  EPA Data set's data column to a date object
+EPA_PM_19$Date <- myd(EPA_PM_19$Date)
+```
 
 
-#4
 
+```{r}
+#4 and 5
+#Selecting  columns in EPA_03_18
+EPA_03_18_Processed <-
+  EPA_O3_18 %>% 
+  select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,COUNTY,       SITE_LATITUDE, SITE_LONGITUDE)
 
-#5
+#Selecting  columns in EPA_03_19
+EPA_O3_19_Processed <-
+  EPA_O3_19 %>%
+  select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,COUNTY,     SITE_LATITUDE, SITE_LONGITUDE)
 
+#Selecting columns in the third EPA dataset and mutating
+EPA_PM_18_Processed <- EPA_PM_18 %>% 
+  select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE) %>% 
+  mutate(AQS_PARAMETER_DESC = ("PM.25"))
+
+#Selecting various columns in the fourth EPA dataset and mutating
+EPA_PM_19_Processed <- EPA_PM_19 %>%
+  select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,   COUNTY,SITE_LATITUDE, SITE_LONGITUDE) %>% 
+ mutate(AQS_PARAMETER_DESC = ("PM.25"))
+
+```
 
 #6
+#Saving Processed Datasets
+
 
 ```
 
